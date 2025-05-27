@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 import asyncio
 from typing import Dict, Any, List, Optional
-
+import shutil
 from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP(
@@ -86,12 +86,9 @@ async def write_file(path: str, content: str) -> str:
         content: Content to write to the file
     """
     path = os.path.normpath(path)
-    is_valid = validate_path(path)
-    if len(is_valid) > 0:
-        return "Error: " + is_valid
-    if not os.path.isfile(path):
-        return f"Error: File does not exist or is not a file: {path}"
-
+    if not os.path.isabs(path):
+        return f"Error: Path must be absolute: {path}"
+    
     try:
         # Create directory if it doesn't exist
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -119,7 +116,7 @@ async def delete_file(path: str) -> str:
             return f"Error: File does not exist: {path}"
         
         if os.path.isdir(path):
-            os.rmdir(path)
+            shutil.rmtree(path)
             return f"Successfully deleted directory: {path}"
         else:
             os.remove(path)
