@@ -25,7 +25,7 @@ def validate_path(path: str) -> str:
 
 # All paths given to the server must be absolute paths
 @mcp.tool()
-async def list_files(path: str = "") -> str:
+async def list_files(path: str) -> str:
     """List all files in the specified directory.
     Args:
         path: Absolute path to the directory to list files from.
@@ -58,48 +58,48 @@ async def list_files(path: str = "") -> str:
         return f"Error: {str(e)}"
 
 @mcp.tool()
-async def read_file(file_path: str) -> str:
+async def read_file(path: str) -> str:
     """Read the contents of a file.
 
     Args:
-        file_path: Absolute path to the file to read.
+        path: Absolute path to the file to read.
     """
-    file_path = os.path.normpath(file_path)
-    is_valid = validate_path(file_path)
+    path = os.path.normpath(path)
+    is_valid = validate_path(path)
     if len(is_valid) > 0:
         return "Error: " + is_valid
-    if not os.path.isfile(file_path):
-        return f"Error: File does not exist or is not a file: {file_path}"    
+    if not os.path.isfile(path):
+        return f"Error: File does not exist or is not a file: {path}"    
     try:
-        with open(file_path, 'r') as f:
+        with open(path, 'r') as f:
             content = f.read()
         return content
     except Exception as e:
         return f"Error reading file: {str(e)}"
 
 @mcp.tool()
-async def write_file(file_path: str, content: str) -> str:
+async def write_file(path: str, content: str) -> str:
     """Write content to a file.
 
     Args:
-        file_path: Absolute path to the file to write content to.
+        path: Absolute path to the file to write content to.
         content: Content to write to the file
     """
-    file_path = os.path.normpath(file_path)
-    is_valid = validate_path(file_path)
+    path = os.path.normpath(path)
+    is_valid = validate_path(path)
     if len(is_valid) > 0:
         return "Error: " + is_valid
-    if not os.path.isfile(file_path):
-        return f"Error: File does not exist or is not a file: {file_path}"
+    if not os.path.isfile(path):
+        return f"Error: File does not exist or is not a file: {path}"
 
     try:
         # Create directory if it doesn't exist
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
 
-        with open(file_path, 'w') as f:
+        with open(path, 'w') as f:
             f.write(content)
         
-        return f"Successfully wrote to {file_path}"
+        return f"Successfully wrote to {path}"
     except Exception as e:
         return f"Error writing to file: {str(e)}"
 
