@@ -102,7 +102,7 @@ async def main():
     result = await client.write_file(path = "/home/ubuntu/aditya/mcp-file-server/smolagents/SECURITY.md", content = "This is a test write operation.")
     print("Write File Result:", result)
 
-    result = await client.delete_file("/home/ubuntu/aditya/mcp-file-server/smolagents/docs/")
+    result = await client.delete_file("/home/ubuntu/aditya/mcp-file-server/smolagents/src/smolagents/prompts/code-agent.yaml")
     print("Delete File Result:", result)
     await client.cleanup()
 
