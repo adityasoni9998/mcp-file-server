@@ -76,7 +76,7 @@ async def main():
     result = await client.execute_command("cat -n find_primes2.cpp")
     print("File Content Result:", result)
 
-    # run a simple C++ program that finds all prime numbers upto 1e9+7 using Sieve of Eratosthenes
+    # run a simple C++ program that finds all prime numbers upto 1e6 using Sieve of Eratosthenes
     result = await client.execute_command("g++ -Wall find_primes.cpp && ./a.out")
     print("C++ Program Result:", result)
 
